@@ -1,22 +1,38 @@
 package edu.dyllis.test;
 
-public abstract class Money {
+class Money {
     protected int amount;
+    protected String currency;
+
+    Money(int amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    static Dollar dollar(int amount) {
+        return new Dollar(amount, "USD");
+    }
+
+    static Franc franc(int amount) {
+        return new Franc(amount, "CHF");
+    }
+
+    String currency() {
+        return this.currency;
+    }
+
+    Money times(int multiplier) {
+        return new Money(this.amount * multiplier, currency);
+    }
 
     public boolean equals(Object object) {
         Money money = (Money) object;
 
         return this.amount == money.amount
-                && getClass().equals(money.getClass());
+                && this.currency().equals(money.currency());
     }
 
-    static Dollar dollar(int amount) {
-        return new Dollar(amount);
+    public String toString() {
+        return amount + " " + currency;
     }
-
-    static Franc franc(int amount) {
-        return new Franc(amount);
-    }
-
-    abstract Money times(int multiplier);
 }
